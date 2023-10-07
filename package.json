@@ -1,0 +1,18 @@
+{
+  "name": "cv-website",
+  "version": "1.0.0",
+  "description": "this is a website for user cv",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/somsha/CV-website.git"
+  },
+  "keywords": [
+    "cv"
+  ],
+  "author": "Somayeh",
+  "license": "ISC"
+}
