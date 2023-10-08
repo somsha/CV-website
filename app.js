@@ -2,79 +2,74 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const sqlite3 = require('sqlite3');
 const fs= require('fs');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
+const { findUserByUsername } = require('./user-db');
 const app = express();
+
 // configurations
 app.engine('.handlebars', exphbs.engine({ extname: '.handlebars', defaultLayout: "main" }));
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 
+app.use(bodyParser.json());
+
+// Configure sessions
+app.use(
+    session({
+      secret: '7CM#5KB*LSqbPRbq&9',
+      resave: false,
+      saveUninitialized: true,
+    })
+  );
+
 
 //sqlite3 database
 const db = new sqlite3.Database('./database/db.sqlite');
 
+// Read the SQL file
+const sqlScript = fs.readFileSync('initial.sql', 'utf8');
+
 // Initialize the DB
 db.serialize(() => {
-    // User table
-    db.run(`
-      CREATE TABLE IF NOT EXISTS user (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE,
-        password TEXT,
-        role TEXT
-      )
-    `);
-  
-    // Profile table
-    db.run(`
-      CREATE TABLE IF NOT EXISTS profile (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
-        avatar TEXT,
-        firstName TEXT,
-        lastName TEXT,
-        FOREIGN KEY (userId) REFERENCES user(id)
-      )
-    `);
-  
-    // Work table
-    db.run(`
-      CREATE TABLE IF NOT EXISTS work (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
-        name TEXT,
-        startDate DATE,
-        endDate DATE,
-        isCurrent BOOLEAN,
-        position TEXT,
-        FOREIGN KEY (userId) REFERENCES user(id)
-      )
-    `);
-  
-    // Education table
-    db.run(`
-      CREATE TABLE IF NOT EXISTS education (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
-        name TEXT,
-        startDate DATE,
-        endDate DATE,
-        isStudying BOOLEAN,
-        degree TEXT,
-        FOREIGN KEY (userId) REFERENCES user(id)
-      )
-    `);
-  
-    // Certificate table
-    db.run(`
-      CREATE TABLE IF NOT EXISTS certificate (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
-        name TEXT,
-        dateOfAchievement DATE,
-        FOREIGN KEY (userId) REFERENCES user(id)
-      )
-    `);
-  });
+    db.exec(sqlScript, (err) => {
+        if (err) {
+          console.error('Error running initial queries:', err.message);
+        } else {
+          console.log('Initial queries executed successfully.');
+        }
+    
+        // Close the database connection
+        db.close((err) => {
+          if (err) {
+            console.error('Error closing the database:', err.message);
+          }
+        });
+      });
+});
+
+
+// Custom middleware to check if the user is logged-in
+function authenticateUser(req, res, next) {
+    const { username, password } = req.body;
+
+    // Use the database function to find the user by username
+    findUserByUsername(username, (err, user) => {
+        if (err) {
+            return res.status(500).json({ message: 'Database error' });
+        }
+        if (!user || !bcrypt.compareSync(password, user.password)) {
+            return res.status(401).json({ message: 'Authentication failed' });
+        }
+
+        // Store the user's ID in the session
+        req.session.userId = user.id;
+
+        next();
+    });
+  }
+
 
 // Routes
 app.get('/', (req, res) => {
