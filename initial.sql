@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 -- insert default admin user
 INSERT INTO user (username, password, role, active)
-    SELECT 'admin', '$2b$10$bm.fwQnp3A5yE65AEGZc9u0AGoH4WQy39BZPCV6xZfBwMPD0stWqHK', 'ROLE_ADMIN', true
+    SELECT 'admin', '$2b$10$IEsZtdkX4I.ZdpAa5hsPBuQk.ywLepZKKcKj.QkuKBWs2qYHROz6K', 'ROLE_ADMIN', true
         WHERE NOT EXISTS (SELECT 1 FROM user WHERE username = 'admin');
 
 --  Profile table

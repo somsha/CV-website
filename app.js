@@ -6,13 +6,14 @@ const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const { findUserByUsername } = require('./user-db');
+const { log } = require('console');
 const app = express();
 
 // configurations
 app.engine('.handlebars', exphbs.engine({ extname: '.handlebars', defaultLayout: "main" }));
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Configure sessions
@@ -52,23 +53,45 @@ db.serialize(() => {
 
 // Custom middleware to check if the user is logged-in
 function authenticateUser(req, res, next) {
+  if(req.session.userId) {
+    next();
+} else {
+    return res.status(401).redirect('/login?error=1');    
+}
+
+}
+
+
+// Routes
+app.get('/', (req, res) => {
+res.render('home', { title: 'Home Page' }); // Render the home.handlebars view
+});
+
+// Define a route for the login page
+app.get('/login', (req, res) => {
+res.render('login', { title: 'Login Page' , layout: false});
+});
+
+// Handle login POST request
+app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
     // Use the database function to find the user by username
     findUserByUsername(username, (err, user) => {
         if (err) {
-            return res.status(500).json({ message: 'Database error' });
+          return res.status(500).redirect('/login?error=1');
         }
         if (!user || !bcrypt.compareSync(password, user.password)) {
-            return res.status(401).json({ message: 'Authentication failed' });
+          return res.status(401).redirect('/login?error=1');
         }
 
         // Store the user's ID in the session
         req.session.userId = user.id;
 
-        next();
+        res.redirect('/');
+      });
     });
-  }
+  
 
 
 // Routes
