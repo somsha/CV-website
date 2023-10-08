@@ -20,9 +20,6 @@ function findUserByUsername(username, callback) {
 }
 
 function getUserInfo(userId, callback) {
-  if (!userId) {
-    callback(null, null);
-  }
   const sql = `
     SELECT user.username, profile.firstName, profile.lastName
     FROM user LEFT JOIN profile ON user.id = profile.userId 

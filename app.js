@@ -25,6 +25,13 @@ app.use(
   );
 
 
+  app.use((req, res, next) => {
+    res.locals.isAuthenticated = !!(req?.session?.userId);
+    next();
+});
+
+
+
 //sqlite3 database
 const db = new sqlite3.Database('./database/db.sqlite');
 
@@ -52,7 +59,7 @@ db.serialize(() => {
 
 // Custom middleware to check if the user is logged-in
 function authenticateUser(req, res, next) {
-  if(req.session.userId) {
+ if(res.locals.isAuthenticated) {
     next();
 } else {
     return res.status(401).redirect('/login?error=1');    
