@@ -112,7 +112,7 @@ app.post('/login', (req, res) => {
               console.log(err);
               res.status(400).redirect('/');
           }
-          res.render('profile', { user: userProfile, title: 'Profile Page' , layout: false });
+          res.render('profile', { user: userProfile, title: 'Profile Page' });
       });
   });
   
