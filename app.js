@@ -104,7 +104,7 @@ app.post('/login', (req, res) => {
       });
     });
   
-    app.get('/profile', (req, res) => {
+    app.get('/profile', authenticateUser, (req, res) => {
       
       // Retrieve the user's information from the database based on their session or user ID
      getUserInfo(req.session.userId, (err, userProfile) => {
@@ -112,12 +112,7 @@ app.post('/login', (req, res) => {
               console.log(err);
               res.status(400).redirect('/');
           }
-          if(!userProfile) {
-              console.log('Please login first');
-              res.redirect('/login');
-          } else {
-              res.render('profile', { user: userProfile, title: 'Profile Page' , layout: false });
-          }
+          res.render('profile', { user: userProfile, title: 'Profile Page' , layout: false });
       });
   });
   
