@@ -5,8 +5,7 @@ const fs= require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const { findUserByUsername } = require('./user-db');
-const { log } = require('console');
+const { findUserByUsername, getUserInfo, updateUserProfile } = require('./user-db');
 const app = express();
 
 // configurations
@@ -14,7 +13,7 @@ app.engine('.handlebars', exphbs.engine({ extname: '.handlebars', defaultLayout:
 app.set('view engine', 'handlebars');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+
 
 // Configure sessions
 app.use(
@@ -72,6 +71,19 @@ app.get('/login', (req, res) => {
 res.render('login', { title: 'Login Page' , layout: false});
 });
 
+// Define a route for the logout page
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+      if (err) {
+          console.error('Error destroying session:', err);
+      }
+      // Redirect to a logout confirmation page (e.g., home)
+      res.redirect('/');
+  });
+});
+
+
+
 // Handle login POST request
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
@@ -92,6 +104,33 @@ app.post('/login', (req, res) => {
       });
     });
   
+    app.get('/profile', (req, res) => {
+      
+      // Retrieve the user's information from the database based on their session or user ID
+     getUserInfo(req.session.userId, (err, userProfile) => {
+          if (err) {
+              console.log(err);
+              res.status(400).redirect('/');
+          }
+          if(!userProfile) {
+              console.log('Please login first');
+              res.redirect('/login');
+          } else {
+              res.render('profile', { user: userProfile, title: 'Profile Page' , layout: false });
+          }
+      });
+  });
+  
+  // POST route to handle profile updates
+  app.post('/profile/update', (req, res) => {
+  
+      const { firstName, lastName, password } = req.body;
+  
+      updateUserProfile(req.session.userId, firstName, lastName, password);
+  
+      res.redirect('/profile');
+  });
+
 
 
 // Routes

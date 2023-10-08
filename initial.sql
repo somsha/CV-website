@@ -16,11 +16,12 @@ INSERT INTO user (username, password, role, active)
 CREATE TABLE IF NOT EXISTS profile (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER,
-    avatar TEXT,
     firstName TEXT,
     lastName TEXT,
     FOREIGN KEY (userId) REFERENCES user(id)
 );
+INSERT INTO profile (userId, firstName)
+    SELECT us.id, 'ADMINISTRATOR' FROM user us WHERE us.username = 'admin' AND 0 = (SELECT count(*) FROM user ut JOIN profile ON ut.id = profile.userId and ut.id = us.id);
 
 -- Work table
 CREATE TABLE IF NOT EXISTS work (
