@@ -82,10 +82,36 @@ function updatePassowrd(userId, password) {
     });
   }
 }
+function registerNewUser(username, password, role) {
+
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
+
+    const sql = `
+      INSERT INTO user 
+      (username, password, role)
+      VALUES 
+      (?, ?, ?)
+    `;
+
+    // Insert the new user into the database
+    db.run(
+        sql,
+        [username, hashedPassword, role],
+        (err) => {
+            if (err) {
+              console.error('Error registering user', err);
+            } else {
+                console.log('User registered updated successfully.');
+            }
+        }
+    );
+  });
+}
 
 
 module.exports = {
   findUserByUsername,
   getUserInfo,
-  updateUserProfile
+  updateUserProfile,
+  registerNewUser
 };

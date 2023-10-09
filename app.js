@@ -5,7 +5,11 @@ const fs= require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
-const { findUserByUsername, getUserInfo, updateUserProfile } = require('./user-db');
+const { findUserByUsername,
+  getUserInfo,
+  updateUserProfile,
+  registerNewUser
+} = require('./user-db');
 const app = express();
 
 // configurations
