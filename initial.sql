@@ -38,11 +38,11 @@ CREATE TABLE IF NOT EXISTS work (
 CREATE TABLE IF NOT EXISTS education (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER,
-    name TEXT,
+    institution TEXT,
     startDate DATE,
     endDate DATE,
-    isStudying BOOLEAN,
     degree TEXT,
+    major TEXT,
     FOREIGN KEY (userId) REFERENCES user(id)
 );
 -- Certificate table

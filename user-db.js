@@ -1,8 +1,7 @@
-const sqlite3 = require('sqlite3');
+const { getDatabase } = require('./singleton-db');
 const bcrypt = require('bcrypt');
 
-// SQLite3 database connection (initialize your db as needed)
-const db = new sqlite3.Database('./database/db.sqlite');
+const db = getDatabase();
 
 // Function to find a user by username
 function findUserByUsername(username, callback) {
@@ -21,8 +20,10 @@ function findUserByUsername(username, callback) {
 
 function getUserInfo(userId, callback) {
   const sql = `
-    SELECT user.username, profile.firstName, profile.lastName
-    FROM user LEFT JOIN profile ON user.id = profile.userId 
+  SELECT 
+  user.username, profile.firstName, profile.lastName
+ FROM user 
+ LEFT JOIN profile ON user.id = profile.userId
     WHERE user.id = ?`;
 
   db.get(sql, [userId], (err, userProfile) => {
@@ -92,6 +93,10 @@ function registerNewUser(username, password, role) {
       VALUES 
       (?, ?, ?)
     `;
+
+    if(!role) {
+      role = 'ROLE_USER';
+    }
 
     // Insert the new user into the database
     db.run(

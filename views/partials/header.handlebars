@@ -11,6 +11,9 @@
         {{!-- todo move to right --}}
         {{#if isAuthenticated }}
             <li><a href="/profile">Profile</a></li>
+            {{#if isAdmin }}
+                <li><a href="/register">Register a user</a></li>
+            {{/if}}
             <li><a href="/logout">Logout</a></li>
         {{else}}
             <li><a href="/login">Login</a></li>

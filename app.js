@@ -1,7 +1,5 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
-const sqlite3 = require('sqlite3');
-const fs= require('fs');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
@@ -10,6 +8,11 @@ const { findUserByUsername,
   updateUserProfile,
   registerNewUser
 } = require('./user-db');
+const {
+  addNewEducation,
+  getEducationList,
+  removeEducation
+} = require('./education-db');
 const app = express();
 
 // configurations
@@ -31,33 +34,8 @@ app.use(
 
   app.use((req, res, next) => {
     res.locals.isAuthenticated = !!(req?.session?.userId);
+    res.locals.isAdmin = (req?.session?.userRole === 'ROLE_ADMIN');
     next();
-});
-
-
-
-//sqlite3 database
-const db = new sqlite3.Database('./database/db.sqlite');
-
-// Read the SQL file
-const sqlScript = fs.readFileSync('initial.sql', 'utf8');
-
-// Initialize the DB
-db.serialize(() => {
-    db.exec(sqlScript, (err) => {
-        if (err) {
-          console.error('Error running initial queries:', err.message);
-        } else {
-          console.log('Initial queries executed successfully.');
-        }
-    
-        // Close the database connection
-        db.close((err) => {
-          if (err) {
-            console.error('Error closing the database:', err.message);
-          }
-        });
-      });
 });
 
 
@@ -110,10 +88,27 @@ app.post('/login', (req, res) => {
 
         // Store the user's ID in the session
         req.session.userId = user.id;
+        req.session.userRole = user.role;
 
         res.redirect('/');
       });
     });
+
+    app.get('/register', (req, res) => {
+      res.render('register', { title: 'Register new User' })
+  });
+  
+  app.post('/register', (req, res) => {
+      const { username, password, role } = req.body;
+      registerNewUser(username, password, role);
+      if(res.locals.isAdmin) {
+        res.redirect('/register');
+    } else {
+        res.redirect('/login');
+    }
+  });
+
+
   
     app.get('/profile', authenticateUser, (req, res) => {
       
@@ -145,12 +140,38 @@ app.get('/', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    res.render('about', { title: 'About Page' }); // Render the home.handlebars view
+  getEducationList(req.session.userId, (err, educationList) => {
+    const data = {
+        title: 'About Page',
+        education: educationList
+    };
+    res.render('about', data);
+});
+
+
 });
 
 app.get('/contact', (req, res) => {
     res.render('contact', { title: 'Contact Page' }); // Render the home.handlebars view
 });
+
+app.post('/cv/education/remove', (req, res) => {
+  const { id } = req.body;
+
+  removeEducation(req.session.userId, id);
+
+  res.redirect('/about');
+});
+
+app.post('/cv/education/add', (req, res) => {
+  const { institution, degree, major, startDate, endDate } = req.body;
+
+  addNewEducation(req.session.userId, institution, degree, major, startDate, endDate);
+
+  res.redirect('/about');
+});
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
