@@ -13,6 +13,11 @@ const {
   getEducationList,
   removeEducation
 } = require('./education-db');
+const {
+  addNewWork,
+  getWorkList,
+  removeWork
+} = require('./work-db');
 const app = express();
 
 // configurations
@@ -139,16 +144,19 @@ app.get('/', (req, res) => {
     res.render('home', { title: 'Home Page' }); // Render the home.handlebars view
 });
 
-app.get('/about', (req, res) => {
-  getEducationList(req.session.userId, (err, educationList) => {
-    const data = {
-        title: 'About Page',
-        education: educationList
-    };
-    res.render('about', data);
-});
-
-
+app.get('/about', authenticateUser, async (req, res) => {
+  const userId = req.session.userId;
+  getEducationList(userId, (err, educationList) => {    
+      getWorkList(userId, (err, workList) => {
+          const data = {
+              title: 'About Page',
+              education: educationList,
+              work: workList
+          };
+          console.log(data);
+          res.render('about', data);
+      });
+  });
 });
 
 app.get('/contact', (req, res) => {
@@ -167,6 +175,23 @@ app.post('/cv/education/add', (req, res) => {
   const { institution, degree, major, startDate, endDate } = req.body;
 
   addNewEducation(req.session.userId, institution, degree, major, startDate, endDate);
+
+  res.redirect('/about');
+});
+
+
+app.post('/cv/work/remove', (req, res) => {
+  const { id } = req.body;
+
+  removeWork(req.session.userId, id);
+
+  res.redirect('/about');
+});
+
+app.post('/cv/work/add', (req, res) => {
+  const { company, position, description, startDate, endDate } = req.body;
+
+  addNewWork(req.session.userId, company,position, description, startDate, endDate);
 
   res.redirect('/about');
 });

@@ -27,11 +27,11 @@ INSERT INTO profile (userId, firstName)
 CREATE TABLE IF NOT EXISTS work (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER,
-    name TEXT,
+    company TEXT,
+    position TEXT,
+    description TEXT,
     startDate DATE,
     endDate DATE,
-    isCurrent BOOLEAN,
-    position TEXT,
     FOREIGN KEY (userId) REFERENCES user(id)
 );
 -- Education table

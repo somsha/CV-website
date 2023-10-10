@@ -14,7 +14,6 @@ function getEducationList(userId, callback) {
         if (err) {
             callback(err, null);
         } else {
-            console.log(educationList);
             callback(null, educationList);
         }
     });
