@@ -145,18 +145,24 @@ app.get('/', (req, res) => {
 });
 
 app.get('/about', authenticateUser, async (req, res) => {
-  const userId = req.session.userId;
-  getEducationList(userId, (err, educationList) => {    
-      getWorkList(userId, (err, workList) => {
-          const data = {
-              title: 'About Page',
-              education: educationList,
-              work: workList
-          };
-          console.log(data);
-          res.render('about', data);
-      });
-  });
+  try {
+    const userId = req.session.userId;
+    const educationList = await getEducationList(userId);
+    const workList = await getWorkList(userId);
+
+    const data = {
+        title: 'About Page',
+        education: educationList,
+        work: workList
+    };
+
+    console.log(data);
+    res.render('about', data);
+} catch (err) {
+    console.error('Error fetching data:', err);
+    // Handle the error and send an error response if needed
+    res.status(500).send('Internal Server Error');
+}
 });
 
 app.get('/contact', (req, res) => {

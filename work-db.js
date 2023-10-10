@@ -2,7 +2,7 @@ const { getDatabase } = require('./singleton-db');
 
 const db = getDatabase();
 
-function getWorkList(userId, callback) {
+function getWorkList(userId) {
     const sql = `
         SELECT 
             id, company, position, description, startDate, endDate 
@@ -10,13 +10,15 @@ function getWorkList(userId, callback) {
             work 
         WHERE userId = ?
         `;
-    return db.all(sql, [userId], (err, workList) => {
-        if (err) {
-            callback(err, null);
-        } else {
-            callback(null, workList);
-        }
-    });
+        return new Promise((resolve, reject) => {
+            db.all(sql, [userId], (err, workList) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(workList);
+                }
+            });
+        });
 }
 
 function addNewWork(userId, company, position, description, startDate, endDate) {

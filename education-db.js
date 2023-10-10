@@ -2,7 +2,7 @@ const { getDatabase } = require('./singleton-db');
 
 const db = getDatabase();
 
-function getEducationList(userId, callback) {
+function getEducationList(userId) {
     const sql = `
         SELECT 
             id, institution, degree, major, startDate, endDate 
@@ -10,13 +10,15 @@ function getEducationList(userId, callback) {
             education 
         WHERE userId = ?
         `;
-    db.all(sql, [userId], (err, educationList) => {
-        if (err) {
-            callback(err, null);
-        } else {
-            callback(null, educationList);
-        }
-    });
+        return new Promise((resolve, reject) => {
+            db.all(sql, [userId], (err, educationList) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(educationList);
+                }
+            });
+        });
 
 }
 
