@@ -97,7 +97,7 @@ function registerNewUser(username, password, role) {
     if(!role) {
       role = 'ROLE_USER';
     }
-
+console.log(username,hashedPassword,role)
     // Insert the new user into the database
     db.run(
         sql,

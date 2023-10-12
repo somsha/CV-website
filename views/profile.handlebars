@@ -1,14 +1,16 @@
-<h1>Profile</h1>
-<form method="post" action="/profile/update">
+<div class="login-card ">
+    <h2 class="text-center">Profile</h2>
+    <form class="form-group " method="post" action="/profile/update">
 
-    <label for="firstName">First Name:</label>
-    <input type="text" id="firstName" name="firstName" value="{{ user.firstName }}" required><br><br>
+        <label class="form-label" for="firstName">First Name:</label>
+        <input class="form-input" type="text" id="firstName" name="firstName" value="{{ user.firstName }}" required>
 
- <label for="lastName">Last Name:</label>
-    <input type="text" id="lastName" name="lastName" value="{{ user.lastName }}"><br><br>
+        <label class="form-label" for="lastName">Last Name:</label>
+        <input class="form-input" type="text" id="lastName" name="lastName" value="{{ user.lastName }}">
 
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" ><br><br>
+        <label class="form-label" for="password">Password:</label>
+        <input class="form-input" type="password" id="password" name="password" ><br><br>
 
-    <button type="submit">Update Profile</button>
-</form>
+        <button class="btn btn-primary" type="submit">Update Profile</button>
+    </form>
+</div>

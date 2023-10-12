@@ -1,4 +1,4 @@
-<table class="work-table">
+<table class="table">
     <thead>
         <tr>
             <th>Company</th>
@@ -20,19 +20,19 @@
             <td>
                 <form action="/cv/work/remove" method="post">
                     <input type="hidden" name="id" value="{{this.id}}">
-                    <button type="submit">Remove</button>
+                    <button class = "btn btn-error" type="submit">Remove</button >
                 </form>
             </td>
         </tr>
         {{/each}}
         <!-- Empty row for adding new work -->
         <tr class="work-row">
-            <td><input type="text" class="edit-input" placeholder="Company" name="workCompany" required></td>
-            <td><input type="text" class="edit-input" placeholder="Position" name="workPosition" required></td>
-            <td><input type="text" class="edit-input" placeholder="Description" name="workDescription" required></td>
-            <td><input type="date" class="edit-input" placeholder="Start Date" name="workStartDate" required></td>
-            <td><input type="date" class="edit-input" placeholder="End Date" name="workEndDate" required></td>
-            <td><button type="submit" id="addworkButton">Add</button></td>
+            <td><input type="text" class="form-input" placeholder="Company" name="workCompany" required></td>
+            <td><input type="text" class="form-input" placeholder="Position" name="workPosition" required></td>
+            <td><input type="text" class="form-input" placeholder="Description" name="workDescription" required></td>
+            <td><input type="date" class="form-input" placeholder="Start Date" name="workStartDate" required></td>
+            <td><input type="date" class="form-input" placeholder="End Date" name="workEndDate" required></td>
+            <td><button class = "btn btn-success" type="submit" id="addworkButton">Add</button></td>
         </tr>
     </tbody>
 </table>
