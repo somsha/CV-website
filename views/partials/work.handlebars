@@ -6,7 +6,9 @@
             <th>Description</th>
             <th>Start Date</th>
             <th>End Date</th>
-            <th>Actions</th>
+            {{#unless readMode}}
+                <th>Actions</th>
+            {{/unless}}
         </tr>
     </thead>
     <tbody>
@@ -17,12 +19,15 @@
             <td>{{this.description}}</td>
             <td>{{this.startDate}}</td>
             <td>{{this.endDate}}</td>
-            <td>
-                <form action="/cv/work/remove" method="post">
-                    <input type="hidden" name="id" value="{{this.id}}">
-                    <button class = "btn btn-error" type="submit">Remove</button >
-                </form>
-            </td>
+            {{#unless ../readMode}}
+                <td>
+                    <form action="/cv/work/remove" method="post">
+                        <input type="hidden" name="id" value="{{this.id}}">
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            {{/unless}}
+
         </tr>
         {{/each}}
         <!-- Empty row for adding new work -->
@@ -32,7 +37,9 @@
             <td><input type="text" class="form-input" placeholder="Description" name="workDescription" required></td>
             <td><input type="date" class="form-input" placeholder="Start Date" name="workStartDate" required></td>
             <td><input type="date" class="form-input" placeholder="End Date" name="workEndDate" required></td>
-            <td><button class = "btn btn-success" type="submit" id="addworkButton">Add</button></td>
+            {{#unless readMode}}
+                <td><button type="submit" id="addworkButton">Add</button></td>
+            {{/unless}}
         </tr>
     </tbody>
 </table>
