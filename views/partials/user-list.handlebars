@@ -1,0 +1,16 @@
+<input type="text" id="nameFilter" placeholder="Filter by Name">
+
+{{ user }}
+
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>User Name</th>
+        </tr>
+    </thead>
+    <tbody id="userTableBody">
+        {{#each user}}
+        <tr><td> {{user.username}} </td></tr>
+        {{/each}}
+    </tbody>
+</table>
