@@ -1,6 +1,6 @@
-const { findUserId, getUserList } = require('./user-db');
-const { getEducationList } = require('./education-db');
-const { getWorkList } = require('./work-db');
+const userDb = require('./user-db');
+const educationDb = require('./education-db');
+const workDb = require('./work-db');
 
 const renderHomePage = async (req, res) => {
     let educationList = [];
@@ -11,12 +11,12 @@ const renderHomePage = async (req, res) => {
         let cvUserId = req.session.userId;
         let cvUser = req.query.cv_user;
         if (cvUser) {
-            const idObject = await findUserId(cvUser);
+            const idObject = await userDb.findUserId(cvUser);
             cvUserId = idObject.id;
         }
-        educationList = await getEducationList(cvUserId);
-        workList = await getWorkList(cvUserId);
-        userList = await getUserList(res.locals.isAdmin);
+        educationList =  await educationDb.getEducationList(cvUserId);
+        workList = await workDb.getWorkList(cvUserId);
+        userList = await userDb.getUserList(res.locals.isAdmin);
     }
 
     const data = {

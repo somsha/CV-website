@@ -1,5 +1,5 @@
-const { getEducationList } = require('./education-db');
-const { getWorkList } = require('./work-db');
+const educationDb = require('./education-db');
+const workDb = require('./work-db');
 
 
 const renderAboutPage = async (req, res) => {

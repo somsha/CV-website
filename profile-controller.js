@@ -1,9 +1,9 @@
-const { getUserInfo, updateUserProfile } = require('./user-db');
+const userDb = require('./user-db');
 
 const renderProfilePage = (req, res) => {
     // Retrieve the user's information from the database based on their session or user ID
 
-    getUserInfo(req.session.userId, (err, userProfile) => {
+    userDb.getUserInfo(req.session.userId, (err, userProfile) => {
         if (err) {
             console.log(err);
             res.status(400).redirect('/');
@@ -15,7 +15,7 @@ const renderProfilePage = (req, res) => {
 const updateProfile = (req, res) => {
     const { firstName, lastName, password } = req.body;
 
-    updateUserProfile(req.session.userId, firstName, lastName, password);
+    userDb.updateUserProfile(req.session.userId, firstName, lastName, password);
 
     res.redirect('/profile');
 };

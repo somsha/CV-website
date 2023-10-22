@@ -1,9 +1,9 @@
-const { removeEducation, addNewEducation } = require('./education-db');
+const educationDb = require('./education-db');
 
 const removeEducationEntry = (req, res) => {
     const { id } = req.body;
 
-    removeEducation(req.session.userId, id);
+    educationDb.removeEducation(req.session.userId, id)
 
     res.redirect('/about');
 };
@@ -12,7 +12,7 @@ const removeEducationEntry = (req, res) => {
 const addEducationEntry = (req, res) => {
     const { institution, degree, major, startDate, endDate } = req.body;
 
-    addNewEducation(req.session.userId, institution, degree, major, startDate, endDate);
+    educationDb.addNewEducation(req.session.userId, institution, degree, major, startDate, endDate);
 
     res.redirect('/about');
 };
