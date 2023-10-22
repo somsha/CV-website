@@ -91,12 +91,13 @@ app.get('/contact', (req, res) => {
     res.render('contact', { title: 'Contact Page' }); // Render the home.handlebars view
 });
 
-app.post('/cv/education/remove', educationController.removeEducationEntry);
-app.post('/cv/education/add', educationController.addEducationEntry);
+app.post('/cv/education/remove', authenticateUser, educationController.removeEducationEntry);
+app.post('/cv/education/add', authenticateUser, educationController.addEducationEntry);
+app.post('/cv/education/edit', authenticateUser, educationController.saveEducationEntry);
 
 
-app.post('/cv/work/remove', workController.removeWorkEntry);
-app.post('/cv/work/add', workController.addWorkEntry);
+app.post('/cv/work/remove', authenticateUser, workController.removeWorkEntry);
+app.post('/cv/work/add', authenticateUser, workController.addWorkEntry);
 
 app.get('/admin/users', authenticateUser, adminController.renderUserManagement);
 app.post('/admin/updateUser', authenticateUser, adminController.updateUser);

@@ -8,14 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const form = document.createElement('form');
         form.action = '/cv/education/add';
         form.method = 'POST';
+        form.style.display = 'none';
 
         // Create input fields for the data
         const fields = [
-            { name: 'institution', value: document.querySelector('[name=educationInstitution]').value },
-            { name: 'degree', value: document.querySelector('[name=educationDegree]').value },
-            { name: 'major', value: document.querySelector('[name=educationMajor]').value },
-            { name: 'startDate', value: document.querySelector('[name=educationStartDate]').value },
-            { name: 'endDate', value: document.querySelector('[name=educationEndDate]').value },
+            { name: 'institution', value: document.querySelector('[name=educationInstitutionNew]').value },
+            { name: 'degree', value: document.querySelector('[name=educationDegreeNew]').value },
+            { name: 'major', value: document.querySelector('[name=educationMajorNew]').value },
+            { name: 'startDate', value: document.querySelector('[name=educationStartDateNew]').value },
+            { name: 'endDate', value: document.querySelector('[name=educationEndDateNew]').value },
         ];
 
         // Append input fields to the form

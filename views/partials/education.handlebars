@@ -13,36 +13,41 @@
     </thead>
     <tbody>
         {{#each education}}
-        <tr >
-            <td>{{this.institution}}</td>
-            <td>{{this.degree}}</td>
-            <td>{{this.major}}</td>
-            <td>{{this.startDate}}</td>
-            <td>{{this.endDate}}</td>
-           
-           {{#unless ../readMode }}
-                <td>
-                    <form action="/cv/education/remove" method="post">
-                        <input type="hidden" name="id" value="{{this.id}}">
-                        <button type="submit">Remove</button>
-                    </form>
-                </td>
-            {{/unless }}
-
-
-        </tr>
+       {{#if ../readMode }}
+            <tr class="education-row">          
+                    <td>{{this.institution}}</td>
+                    <td>{{this.degree}}</td>
+                    <td>{{this.major}}</td>
+                    <td>{{this.startDate}}</td>
+                    <td>{{this.endDate}}</td>     
+                    <td></td>    
+            </tr>
+            {{else}}
+                <tr class="education-row">          
+                    <td><input type="text" value="{{this.institution}}" class="edit-input" placeholder="Institution" name="educationInstitution_{{this.id}}" required></td>
+                    <td><input type="text" value="{{this.degree}}" class="edit-input" placeholder="Degree" name="educationDegree_{{this.id}}" required></td>
+                    <td><input type="text" value="{{this.major}}" class="edit-input" placeholder="Major" name="educationMajor_{{this.id}}" required></td>
+                    <td><input type="date" value="{{this.startDate}}" class="edit-input" placeholder="Start Date" name="educationStartDate_{{this.id}}" required></td>
+                    <td><input type="date" value="{{this.endDate}}" class="edit-input" placeholder="End Date" name="educationEndDate_{{this.id}}" required></td>     
+                    <td>
+                        <button onclick="saveEducationChanges('{{this.id}}')">Save Changes</button>
+                        <button onclick="removeEducation('{{this.id}}')">Remove</button>
+                    </td>
+                </tr>
+            {{/if }}
         {{/each}}
         <!-- Empty row for adding new education -->
-        <tr class="education-row">
-            <td><input  type="text" class="form-input" placeholder="Institution" name="educationInstitution" required></td>
-            <td><input  type="text" class="form-input" placeholder="Degree" name="educationDegree" required></td>
-            <td><input  type="text" class="form-input" placeholder="Major" name="educationMajor" required></td>
-            <td><input  type="date" class="form-input" placeholder="Start Date" name="educationStartDate" required></td>
-            <td><input  type="date" class="form-input" placeholder="End Date" name="educationEndDate" required></td>
-            {{#unless readMode }}
-                <td><button type="submit" id="addEducationButton">Add</button></td>
-            {{/unless }}
-        </tr>
+        {{#unless readMode }}
+            <tr class="education-row">
+                <td><input type="text" class="edit-input" placeholder="Institution" name="educationInstitutionNew" required></td>
+                <td><input type="text" class="edit-input" placeholder="Degree" name="educationDegreeNew" required></td>
+                <td><input type="text" class="edit-input" placeholder="Major" name="educationMajorNew" required></td>
+                <td><input type="date" class="edit-input" placeholder="Start Date" name="educationStartDateNew" required></td>
+                <td><input type="date" class="edit-input" placeholder="End Date" name="educationEndDateNew" required></td>
+                <td><button type="submit" id="addEducationButton">Add</button></td>  
+            </tr>
+        {{/unless }}
     </tbody>
 </table>
-</table>
+<script src="/js/addEducation.js"></script>
+<script src="/js/saveEducationChanges.js"></script>

@@ -32,16 +32,43 @@ function addNewEducation(userId, institution, degree, major, startDate, endDate)
 
       // Insert the new user into the database
       db.run(
-          sql,
-          [userId,institution,  degree, major, startDate, endDate],
-          (err) => {
-              if (err) {
-                console.error('Error adding education', err);
-              } else {
-                  console.log('Education added successfully.');
-              }
-          }
-      );
+        sql,
+        [userId, institution, degree, major, startDate, endDate],
+        (err) => {
+            if (err) {
+            console.error('Error adding education', err);
+            } else {
+                console.log('Education added successfully.');
+            }
+        }
+    );
+
+}
+
+function saveEducation(id, institution, degree, major, startDate, endDate) {
+    const sql = `
+        UPDATE education 
+        SET 
+            institution = ?,
+            degree = ?,
+            major = ?,
+            startDate = ?,
+            endDate = ?
+        WHERE id = ?
+        `;
+
+    db.run(
+        sql,
+        [institution, degree, major, startDate, endDate, id],
+        (err) => {
+            if (err) {
+                console.error('Error updating education', err);
+            } else {
+                console.log('Education updated successfully.');
+            }
+        }
+    );
+
 
 }
 
@@ -55,20 +82,21 @@ function removeEducation(userId, id) {
 
       // Insert the new user into the database
       db.run(
-          sql,
-          [userId, id],
-          (err) => {
-              if (err) {
-                console.error('Error deleting education', err);
-              } else {
-                  console.log('Education deleted successfully.', id);
-              }
-          }
-      );
+        sql,
+        [userId, id],
+        (err) => {
+            if (err) {
+            console.error('Error deleting education', err);
+            } else {
+                console.log('Education deleted successfully.', id);
+            }
+        }
+    );
 }
 
 module.exports = {
     getEducationList,
     addNewEducation,
-    removeEducation
+    removeEducation,
+    saveEducation
 }

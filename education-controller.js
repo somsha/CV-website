@@ -12,7 +12,18 @@ const removeEducationEntry = (req, res) => {
 const addEducationEntry = (req, res) => {
     const { institution, degree, major, startDate, endDate } = req.body;
 
-    educationDb.addNewEducation(req.session.userId, institution, degree, major, startDate, endDate);
+    educationDb.addNewEducation(req.session.userId,institution, degree, major, startDate, endDate);
+
+    res.redirect('/about');
+};
+
+const saveEducationEntry = (req, res) => {
+
+    console.log('reached here ************');
+
+    const { id, institution, degree, major, startDate, endDate } = req.body;
+    console.log( id, institution, degree, major, startDate, endDate);
+    educationDb.saveEducation(id, institution, degree, major, startDate, endDate);
 
     res.redirect('/about');
 };
@@ -20,4 +31,5 @@ const addEducationEntry = (req, res) => {
 module.exports = {
     removeEducationEntry,
     addEducationEntry,
+    saveEducationEntry
 };
