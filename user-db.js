@@ -5,7 +5,7 @@ const db = getDatabase();
 
 // Function to find a user by username
 function findUserByUsername(username, callback) {
-  const sql = 'SELECT * FROM user WHERE username = ?';
+  const sql = 'SELECT * FROM user WHERE active = 1 AND username = ?';
   db.get(sql, [username], (err, user) => {
    
     if (err) {
@@ -24,7 +24,7 @@ function getUserInfo(userId, callback) {
   user.username, profile.firstName, profile.lastName
  FROM user 
  LEFT JOIN profile ON user.id = profile.userId
-    WHERE user.id = ?`;
+    WHERE active = 1 AND user.id = ?`;
 
   db.get(sql, [userId], (err, userProfile) => {
     if (err) {
@@ -40,7 +40,7 @@ function findUserId(username) {
           id
       FROM 
           user 
-      WHERE username = ?
+      WHERE active = 1 AND username = ?
   `;
 
   return new Promise((resolve, reject) => {
@@ -60,7 +60,7 @@ function getUserList(includeAdmin) {
           username
       FROM 
           user 
-      WHERE role = 'ROLE_USER'
+      WHERE active = 1 AND role = 'ROLE_USER'
   `;
 
   if(includeAdmin) {
