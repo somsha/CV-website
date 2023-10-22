@@ -45,11 +45,3 @@ CREATE TABLE IF NOT EXISTS education (
     major TEXT,
     FOREIGN KEY (userId) REFERENCES user(id)
 );
--- Certificate table
-CREATE TABLE IF NOT EXISTS certificate (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    userId INTEGER,
-    name TEXT,
-    dateOfAchievement DATE,
-    FOREIGN KEY (userId) REFERENCES user(id)
-);
