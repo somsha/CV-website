@@ -1,4 +1,4 @@
-const { findUserByUsername, registerNewUser } = require('./user-db');
+const userDb = require('./user-db');
 const bcrypt = require('bcrypt');
 
 const renderLoginPage = (req, res) => {
@@ -8,7 +8,7 @@ const renderLoginPage = (req, res) => {
 const handleLogin = (req, res) => {
     const { username, password } = req.body;
 
-    findUserByUsername(username, (err, user) => {
+    userDb.findUserByUsername(username, (err, user) => {
         if (err) {
             return res.status(500).redirect('/login?error=1');
         }
@@ -44,7 +44,7 @@ const renderRegisterPage = (req, res) => {
 
 const handleRegistration = (req, res) => {
     const { username, password, role } = req.body;
-    registerNewUser(username, password, role);
+    userDb.registerNewUser(username, password, role);
     if (res.locals.isAdmin) {
         res.redirect('/register');
     } else {

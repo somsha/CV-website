@@ -7,6 +7,7 @@ function removeUserPermanently(userId) {
 
         const removeForm = document.createElement('form');
         removeForm.method = 'POST';
+        removeForm.action = '/admin/removeUser';
         removeForm.style.display = 'none';
         removeForm.appendChild(removeInput);
 

@@ -104,14 +104,27 @@ function updateUserInfo(userId, role, active) {
           active = ? 
         WHERE
           id = ?`;
+          db.run(sql, [role, active, userId], (err) => {
+            if (err) {
+                console.error('Error updating user:', err);
+            } else {
+                console.log('User updated successfully.');
+            }
+          });
+}
+function removeUser(userId) {
+  const sql = `
+        DELETE FROM user
+        WHERE
+          id = ?`;
 
-      db.run(sql, [role, active, userId], (err) => {
-        if (err) {
-            console.error('Error updating user profile:', err);
-        } else {
-            console.log('User updated successfully.');
-        }
-      });
+  db.run(sql, [userId], (err) => {
+    if (err) {
+        console.error('Error removing user:', err);
+    } else {
+        console.log('User removed successfully.');
+    }
+  });
 }
 
 function updateUserProfile(userId, firstName, lastName, password) {
@@ -201,5 +214,6 @@ module.exports = {
   getUserList,
   findUserId,
   getAllUserInfoList,
-  updateUserInfo
+  updateUserInfo,
+  removeUser
 };

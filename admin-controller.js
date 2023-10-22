@@ -1,10 +1,8 @@
-const { getAllUserInfoList, updateUserInfo } = require('./user-db');
+const userDb = require('./user-db');
 
 const renderUserManagement = async (req, res) => {
 
-    const userList = await getAllUserInfoList();
-
-    console.log(userList);
+    const userList = await userDb.getAllUserInfoList();
 
     const data = {
         title: 'User Management',
@@ -16,14 +14,23 @@ const renderUserManagement = async (req, res) => {
 
 const updateUser = (req, res) => {
     const {userId, role, active} = req.body;
-    console.log({userId, role, active});
+    
 
-    updateUserInfo(userId, role, active);
+    userDb.updateUserInfo(userId, role, active);
+
+    res.redirect('/admin/users');
+};
+
+const removeUserPermanently = (req, res) => {
+    const {userId} = req.body;
+
+    userDb.removeUser(userId);
 
     res.redirect('/admin/users');
 };
 
 module.exports = {
     renderUserManagement,
-    updateUser
+    updateUser,
+    removeUserPermanently
 };

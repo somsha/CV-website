@@ -100,6 +100,7 @@ app.post('/cv/work/add', workController.addWorkEntry);
 
 app.get('/admin/users', authenticateUser, adminController.renderUserManagement);
 app.post('/admin/updateUser', authenticateUser, adminController.updateUser);
+app.post('/admin/removeUser', authenticateUser, adminController.removeUserPermanently);
 // Start the server
 const PORT = process.env.PORT || 3000;
 httpsServer.listen(PORT, () => {
