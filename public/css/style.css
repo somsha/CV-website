@@ -26,14 +26,18 @@ nav li {
 }
 
 
-nav li a {
+nav li a, nav li a:visited {
     text-decoration: none; 
     color: #fff; 
+    padding: 0px;
 }
 
 
 nav li a:hover {
-    text-decoration: underline; 
+    text-decoration: none; 
+    color: black;
+    background-color: white;
+    padding: 5px 0;
 }
 
 
@@ -80,7 +84,7 @@ img {
 }
 
 .email a{
-    color: black;
+    color: white;
     font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
@@ -114,6 +118,31 @@ img {
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
+.profile-card {
+    width: 400px;
+    margin: 50px auto;
+    text-align: center;
+
+    background-color: #333;
+    color: #fff;
+    padding: 40px;
+    border-radius: 5px ;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+
+.user-managment-card{
+    width: 800px;
+    margin: 50px auto;
+    text-align: center;
+
+    background-color: #333;
+    color: #fff;
+    padding: 40px;
+    border-radius: 5px ;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
 .cv{
     width: 90%;
     margin: 50px auto;
@@ -133,13 +162,16 @@ img {
 
 /* Style the left section (user list) */
 .user-list {
-    background-color: #f0f0f0;
+    background-color: #333;
+    color: white;
     padding: 20px;
+    text-align: center;
 }
 
 /* Style the right section (CV details) */
 .cv-details {
-    background-color: #fff;
+    background-color: #333;
+    color: #fff;
     padding: 20px;
 }
 
@@ -153,5 +185,3 @@ img {
   }
 
 .btn:hover {background: #104bc9;}
-
-

@@ -1,5 +1,9 @@
-<h1>User List</h1>
-<table>
+
+<div class="user-managment-card">
+<h2>User List</h2>
+
+
+<table class="table">
     <thead>
         <tr>
             <th>Username</th>
@@ -13,26 +17,27 @@
         <tr>
             <td>{{this.username}}</td>
             <td>
-                <select id="activeSelect-{{this.id}}">
+                <select class="form-select" style="color:black" id="activeSelect-{{this.id}}">
                     <option value="Active" {{#if this.active}}selected{{/if}}>Active</option>
                     <option value="Inactive" {{#unless this.active}}selected{{/unless}}>Inactive</option>
                 </select>
             </td>
             <td>
-                <select id="roleSelect-{{this.id}}">
+                <select class="form-select" style="color:black" id="roleSelect-{{this.id}}">
                     <option value="ROLE_USER" {{#if (equal this.role 'ROLE_USER')}}selected{{/if}}>User</option>
                     <option value="ROLE_ADMIN" {{#if (equal this.role 'ROLE_ADMIN')}}selected{{/if}}>Admin</option>
                 </select>
             </td>
             <td>
-                <button onclick="saveUserChanges('{{this.id}}')">Save Changes</button>
-                <button onclick="removeUserPermanently('{{this.id}}')">Remove Permanently</button>
+                <button class="btn btn-primary"onclick="saveUserChanges('{{this.id}}')">Save Changes</button>
+                <button class="btn btn-error"onclick="removeUserPermanently('{{this.id}}')">Remove Permanently</button>
             </td>
         </tr>
         {{/each}}
 
     </tbody>
 </table>
+</div>
 
 <script src="/js/saveUserChanges.js"></script> 
 <script src="/js/removeUserPermanently.js"></script>
