@@ -19,7 +19,7 @@ const addEducationEntry = (req, res) => {
 
 const saveEducationEntry = (req, res) => {
 
-    console.log('reached here ************');
+   
 
     const { id, institution, degree, major, startDate, endDate } = req.body;
     console.log( id, institution, degree, major, startDate, endDate);

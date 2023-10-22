@@ -13,34 +13,43 @@
     </thead>
     <tbody>
         {{#each work}}
-        <tr class="work-row">
-            <td>{{this.company}}</td>
-            <td>{{this.position}}</td>
-            <td>{{this.description}}</td>
-            <td>{{this.startDate}}</td>
-            <td>{{this.endDate}}</td>
-            {{#unless ../readMode}}
-                <td>
-                    <form action="/cv/work/remove" method="post">
-                        <input type="hidden" name="id" value="{{this.id}}">
-                        <button type="submit">Remove</button>
-                    </form>
-                </td>
-            {{/unless}}
+       {{#if ../readMode }}
+            <tr class="work-row">
+                <td>{{this.company}}</td>
+                <td>{{this.position}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.startDate}}</td>
+                <td>{{this.endDate}}</td>
+            </tr>
+            {{else}}
+                <tr class="education-row">          
+                    <td><input type="text" value="{{this.company}}" class="edit-input" placeholder="Institution" name="workCompany_{{this.id}}" required></td>
+                    <td><input type="text" value="{{this.position}}" class="edit-input" placeholder="Degree" name="workPosition_{{this.id}}" required></td>
+                    <td><input type="text" value="{{this.description}}" class="edit-input" placeholder="Major" name="workDescription_{{this.id}}" required></td>
+                    <td><input type="date" value="{{this.startDate}}" class="edit-input" placeholder="Start Date" name="workStartDate_{{this.id}}" required></td>
+                    <td><input type="date" value="{{this.endDate}}" class="edit-input" placeholder="End Date" name="workEndDate_{{this.id}}" required></td>     
+                    <td>
+                        <button onclick="saveWorkChanges('{{this.id}}')">Save Changes</button>
+                        <button onclick="removeWork('{{this.id}}')">Remove</button>
+                    </td>
+                </tr>
+            {{/if }}
 
         </tr>
         {{/each}}
         <!-- Empty row for adding new work -->
-        <tr class="work-row">
-            <td><input type="text" class="form-input" placeholder="Company" name="workCompany" required></td>
-            <td><input type="text" class="form-input" placeholder="Position" name="workPosition" required></td>
-            <td><input type="text" class="form-input" placeholder="Description" name="workDescription" required></td>
-            <td><input type="date" class="form-input" placeholder="Start Date" name="workStartDate" required></td>
-            <td><input type="date" class="form-input" placeholder="End Date" name="workEndDate" required></td>
-            {{#unless readMode}}
+        {{#unless readMode}}
+            <tr class="work-row">
+                <td><input type="text" class="edit-input" placeholder="Company" name="workCompanyNew" required></td>
+                <td><input type="text" class="edit-input" placeholder="Position" name="workPositionNew" required></td>
+                <td><input type="text" class="edit-input" placeholder="Description" name="workDescriptionNew" required></td>
+                <td><input type="date" class="edit-input" placeholder="Start Date" name="workStartDateNew" required></td>
+                <td><input type="date" class="edit-input" placeholder="End Date" name="workEndDateNew" required></td>
                 <td><button type="submit" id="addworkButton">Add</button></td>
-            {{/unless}}
-        </tr>
+            </tr>
+        {{/unless}}
+            
     </tbody>
 </table>
-<script src="/js/work.js"></script>
+<script src="/js/addWork.js"></script> 
+<script src="/js/saveWorkChanges.js"></script>

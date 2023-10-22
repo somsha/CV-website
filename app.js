@@ -98,6 +98,7 @@ app.post('/cv/education/edit', authenticateUser, educationController.saveEducati
 
 app.post('/cv/work/remove', authenticateUser, workController.removeWorkEntry);
 app.post('/cv/work/add', authenticateUser, workController.addWorkEntry);
+app.post('/cv/work/edit', authenticateUser, workController.saveWorkEntry);
 
 app.get('/admin/users', authenticateUser, adminController.renderUserManagement);
 app.post('/admin/updateUser', authenticateUser, adminController.updateUser);

@@ -10,8 +10,17 @@ const removeWorkEntry = (req, res) => {
 
 const addWorkEntry = (req, res) => {
     const { company, position, description, startDate, endDate } = req.body;
+    console.log("test")
 
     workDb.addNewWork(req.session.userId, company, position, description, startDate, endDate);
+
+    res.redirect('/about');
+};
+const saveWorkEntry = (req, res) => {
+
+    const { id, company, position, description, startDate, endDate } = req.body;
+
+    workDb.saveWork(id, company, position, description, startDate, endDate);
 
     res.redirect('/about');
 };
@@ -19,4 +28,5 @@ const addWorkEntry = (req, res) => {
 module.exports = {
     removeWorkEntry,
     addWorkEntry,
+    saveWorkEntry
 };

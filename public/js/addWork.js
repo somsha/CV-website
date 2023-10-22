@@ -8,14 +8,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const form = document.createElement('form');
         form.action = '/cv/work/add';
         form.method = 'POST';
+        form.style.display = 'none';
 
         // Create input fields for the data
         const fields = [
-            { name: 'company', value: document.querySelector('[name=workCompany]').value },
-            { name: 'position', value: document.querySelector('[name=workPosition]').value },
-            { name: 'description', value: document.querySelector('[name=workDescription]').value },
-            { name: 'startDate', value: document.querySelector('[name=workStartDate]').value },
-            { name: 'endDate', value: document.querySelector('[name=workEndDate]').value },
+            { name: 'company', value: document.querySelector('[name=workCompanyNew]').value },
+            { name: 'position', value: document.querySelector('[name=workPositionNew]').value },
+            { name: 'description', value: document.querySelector('[name=workDescriptionNew]').value },
+            { name: 'startDate', value: document.querySelector('[name=workStartDateNew]').value },
+            { name: 'endDate', value: document.querySelector('[name=workEndDateNew]').value },
         ];
 
         // Append input fields to the form

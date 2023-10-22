@@ -44,6 +44,32 @@ function addNewWork(userId, company, position, description, startDate, endDate) 
 
 }
 
+function saveWork(id, company, position, description, startDate, endDate) {
+    const sql = `
+        UPDATE work 
+        SET 
+            company = ?,
+            position = ?,
+            description = ?,
+            startDate = ?,
+            endDate = ?
+        WHERE id = ?
+        `;
+
+    db.run(
+        sql,
+        [company, position, description, startDate, endDate, id],
+        (err) => {
+            if (err) {
+                console.error('Error updating work', err);
+            } else {
+                console.log('Work updated successfully.');
+            }
+        }
+    );
+
+}
+
 function removeWork(userId, id) {
     const sql = `
         DELETE FROM 
@@ -69,5 +95,6 @@ function removeWork(userId, id) {
 module.exports = {
     getWorkList,
     addNewWork,
-    removeWork
+    removeWork,
+    saveWork
 }
