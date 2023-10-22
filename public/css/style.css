@@ -143,4 +143,15 @@ img {
     padding: 20px;
 }
 
+.btn {
+    border: none;
+    background-color: inherit;
+    padding: 1px;
+    font-size: 12px;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+.btn:hover {background: #104bc9;}
+
 

@@ -34,6 +34,49 @@ function getUserInfo(userId, callback) {
     }
   });
 }
+function findUserId(username) {
+  let sql = `
+      SELECT 
+          id
+      FROM 
+          user 
+      WHERE username = ?
+  `;
+
+  return new Promise((resolve, reject) => {
+      db.get(sql, [username], (err, userId) => {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(userId);
+          }
+      });
+  });
+}
+
+function getUserList(includeAdmin) {
+  let sql = `
+      SELECT 
+          username
+      FROM 
+          user 
+      WHERE role = 'ROLE_USER'
+  `;
+
+  if(includeAdmin) {
+    sql = sql +  `or role = 'ROLE_ADMIN'`;
+  }
+
+  return new Promise((resolve, reject) => {
+      db.all(sql, [], (err, userList) => {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(userList);
+          }
+      });
+  });
+}
 
 function updateUserProfile(userId, firstName, lastName, password) {
   updateName(userId, firstName, lastName);
@@ -118,5 +161,7 @@ module.exports = {
   findUserByUsername,
   getUserInfo,
   updateUserProfile,
-  registerNewUser
+  registerNewUser,
+  getUserList,
+  findUserId
 };

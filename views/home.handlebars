@@ -1,4 +1,4 @@
-
+{{#if isAuthenticated}}
 <div class="grid-container">
     <div class="user-list">
         {{> user-list}}
@@ -21,3 +21,6 @@
         </section>
     </div>
 </div>
+{{else}}
+<a href="/login">Please login</a>
+{{/if}}
