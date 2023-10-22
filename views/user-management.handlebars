@@ -1,0 +1,38 @@
+<h1>User List</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Is Active</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each user}}
+        <tr>
+            <td>{{this.username}}</td>
+            <td>
+                <select id="activeSelect-{{this.id}}">
+                    <option value="Active" {{#if this.active}}selected{{/if}}>Active</option>
+                    <option value="Inactive" {{#unless this.active}}selected{{/unless}}>Inactive</option>
+                </select>
+            </td>
+            <td>
+                <select id="roleSelect-{{this.id}}">
+                    <option value="ROLE_USER" {{#if (equal this.role 'ROLE_USER')}}selected{{/if}}>User</option>
+                    <option value="ROLE_ADMIN" {{#if (equal this.role 'ROLE_ADMIN')}}selected{{/if}}>Admin</option>
+                </select>
+            </td>
+            <td>
+                <button onclick="saveUserChanges('{{this.id}}')">Save Changes</button>
+                <button onclick="removeUserPermanently('{{this.id}}')">Remove Permanently</button>
+            </td>
+        </tr>
+        {{/each}}
+
+    </tbody>
+</table>
+
+<script src="/js/saveUserChanges.js"></script> 
+<script src="/js/removeUserPermanently.js"></script>

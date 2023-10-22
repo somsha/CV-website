@@ -77,6 +77,42 @@ function getUserList(includeAdmin) {
       });
   });
 }
+function getAllUserInfoList() {
+  let sql = `
+      SELECT 
+          id, username, role, active
+      FROM 
+          user 
+  `;
+
+  return new Promise((resolve, reject) => {
+      db.all(sql, [], (err, userList) => {
+          if (err) {
+              reject(err);
+          } else {
+              resolve(userList);
+          }
+      });
+  });
+}
+
+function updateUserInfo(userId, role, active) {
+  const sql = `
+        UPDATE user
+        SET
+          role = ?,
+          active = ? 
+        WHERE
+          id = ?`;
+
+      db.run(sql, [role, active, userId], (err) => {
+        if (err) {
+            console.error('Error updating user profile:', err);
+        } else {
+            console.log('User updated successfully.');
+        }
+      });
+}
 
 function updateUserProfile(userId, firstName, lastName, password) {
   updateName(userId, firstName, lastName);
@@ -132,9 +168,9 @@ function registerNewUser(username, password, role) {
 
     const sql = `
       INSERT INTO user 
-      (username, password, role)
+      (username, password, role, active)
       VALUES 
-      (?, ?, ?)
+      (?, ?, ? , ?)
     `;
 
     if(!role) {
@@ -144,7 +180,7 @@ console.log(username,hashedPassword,role)
     // Insert the new user into the database
     db.run(
         sql,
-        [username, hashedPassword, role],
+        [username, hashedPassword, role , 1],
         (err) => {
             if (err) {
               console.error('Error registering user', err);
@@ -163,5 +199,7 @@ module.exports = {
   updateUserProfile,
   registerNewUser,
   getUserList,
-  findUserId
+  findUserId,
+  getAllUserInfoList,
+  updateUserInfo
 };
