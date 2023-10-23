@@ -83,21 +83,21 @@ WHERE NOT EXISTS (SELECT 1 FROM work WHERE userId = 1 and company = 'Iran');
 
 --inser user2 cv
 INSERT INTO education (userId, institution, startDate, endDate, degree, major)
-SELECT 2, 'Jönköping university', '2021-01-07', '', 'Student', 'Software Engineering and Mobile Platformsics'
+SELECT 2, 'Stockholms university', '2020-01-07', '', 'Student', 'Software Engineering and Mobile Platformsics'
 WHERE NOT EXISTS (SELECT 1 FROM education WHERE userId = 2);
 
 
 INSERT INTO work (userId, company, position, description, startDate, endDate)
-SELECT 2, 'Aleholm school' , 'Educational Assistant','', '2018-01-07', '2022-10-22'
+SELECT 2, 'Aleholm school' , ' Assistant','', '2018-01-22', '2022-11-22'
 WHERE NOT EXISTS (SELECT 1 FROM work WHERE userId = 2);
 
 
 --insert user3 cv
 INSERT INTO education (userId, institution, startDate, endDate, degree, major)
-SELECT 3, 'Jönköping university', '2020-01-07', '', 'Student', 'Software Engineering and Mobile Platformsics'
+SELECT 3, 'Växjö university', '2020-01-07', '', 'Student', 'Nurse'
 WHERE NOT EXISTS (SELECT 1 FROM education WHERE userId = 3);
 
 
 INSERT INTO work (userId, company, position, description, startDate, endDate)
-SELECT 3, 'Aleholm school' , 'Educational Assistant','', '2018-01-07', '2022-10-22'
+SELECT 3, 'Ikea' , 'Seller','', '2018-01-07', '2022-10-22'
 WHERE NOT EXISTS (SELECT 1 FROM work WHERE userId = 3);
